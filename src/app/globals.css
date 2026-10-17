@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@source "../**/*.{js,jsx,ts,tsx}";
+
 @font-face {
   font-family: 'Berkshire Swash';
   src: url('/canva_assets/e1b6fe3a3ac238ce9f23dc545ca513b7.woff') format('woff');

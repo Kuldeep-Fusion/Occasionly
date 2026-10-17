@@ -4,10 +4,9 @@ import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import VideoEntrance from '@/components/VideoEntrance';
 import AudioPlayer from '@/components/AudioPlayer';
-import Countdown from '@/components/Countdown';
 import GoldenScratchCard from '@/components/GoldenScratchCard';
 import DirectionArrow from '@/components/DirectionArrow';
-import RosePetalShower, { triggerRosePetalBurst } from '@/components/RosePetalShower';
+import RosePetalShower from '@/components/RosePetalShower';
 
 export default function Home() {
   const [isOpeningModalOpen, setIsOpeningModalOpen] = useState(true);
@@ -65,20 +64,6 @@ export default function Home() {
     setTimeout(() => setToastMessage(''), 3000);
   };
 
-  const handleShareWhatsApp = () => {
-    const text = encodeURIComponent(
-      "You're cordially invited to Sahil & Anjali's Wedding (#SaAnj) on 12th & 13th November 2026 at Omnia by Tivoli, Greater Noida West! View the wedding invitation: " +
-      (typeof window !== 'undefined' ? window.location.href : '')
-    );
-    window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-  };
-
-  const handleCopyLink = () => {
-    if (typeof window !== 'undefined') {
-      navigator.clipboard.writeText(window.location.href);
-      showToast('Invitation link copied to clipboard! 📋');
-    }
-  };
 
   const getGoogleCalendarUrl = () => {
     const title = encodeURIComponent('Sahil & Anjali Wedding Celebration (#SaAnj)');
@@ -230,26 +215,26 @@ export default function Home() {
             <p className="with-us-text font-script">with us</p>
 
             {/* Ornate Gold Plaque with Auspicious Dates */}
-            <div className="date-ornate-plaque">
-              <div className="plaque-flourish top">
-                <span className="flourish-line"></span>
-                <span className="flourish-icon">❖</span>
-                <span className="flourish-line"></span>
-              </div>
-              <span className="date-plaque-text font-festive">12th &amp; 13th Nov 2026</span>
-              <div className="plaque-flourish btm">
-                <span className="flourish-line"></span>
-                <span className="flourish-icon">❖</span>
-                <span className="flourish-line"></span>
-              </div>
+            <div className="bg-[url(/canva_assets/date.png)] h-30  bg-center bg-no-repeat bg-cover flex items-center justify-center">
+              <span className="date-plaque-text font-festive m-0">12th &amp; 13th Nov 2026</span>
             </div>
 
             {/* Interactive Golden Scratch Card & Countdown */}
-            <GoldenScratchCard targetDate="2026-11-12T11:30:00" />
+            <div >
+              <GoldenScratchCard targetDate="2026-11-12T11:30:00" />
+            </div>
+
           </motion.div>
 
-          {/* DIRECTION ARROW 1: Under Save This Moment down towards Haldi */}
-          <DirectionArrow direction="haldi-to-sangeet" />
+          {/* Delicate Floral Divider */}
+          <div className="divider-ornament">
+            <img
+              src="/canva_assets/9ca67bcd0d33931c481394c7eea55211.png"
+              alt=""
+              className="divider-img"
+            />
+          </div>
+
 
           {/* 5. HALDI CEREMONY */}
           <motion.div
@@ -377,22 +362,26 @@ export default function Home() {
             <p className="ceremony-time font-festive">5:00 pm onwards</p>
           </motion.div>
 
-          {/* DIRECTION ARROW 6: Phere down to Traditional Couple Photo */}
-          <DirectionArrow direction="phere-to-couple" />
-
           {/* 10. COUPLE WEDDING PORTRAIT */}
           <motion.div
-            className="couple-photo-card"
+            id="couple"
+            className="couple-portrait-section"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.25 }}
             variants={fadeInUp}
           >
-            <div className="wedding-photo-wrapper">
+            <div className="couple-portrait-box">
               <img
-                src="/canva_assets/08348f0c20860105af811ba99db95e56.png"
+                src="/canva_assets/couple.png"
                 alt="Sahil and Anjali Traditional Wedding"
-                className="couple-traditional-photo"
+                className="couple-cutout-img"
+              />
+              <img
+                src="/canva_assets/ribbion.png"
+                alt="Floral Garland"
+                className="couple-garland-ribbon"
+                style={{ marginTop: '-54px' }}
               />
             </div>
           </motion.div>
@@ -411,20 +400,9 @@ export default function Home() {
             <p className="venue-address-text font-festive">Sector-2, Greater Noida West</p>
 
             <div className="map-view-box">
-              <a
-                href="https://www.google.com/maps?q=place_id:ChIJC7MBl-bvDDkR0VMPtoOooSI"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="map-click-link"
-                title="Click to open Google Maps"
-              >
-                <img
-                  src="/canva_assets/2812422f84aebe9a52a9f17c6085b2dd.png"
-                  alt="Omnia by Tivoli Location Map"
-                  className="map-image-art"
-                />
-                <div className="map-overlay-badge font-cinzel">Open in Google Maps ↗</div>
-              </a>
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d448302.5910483119!2d76.97356611666198!3d28.618851006981483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cefe69701b30b%3A0x22a1a883b60f53d1!2sOmnia%20by%20Tivoli-%20Greater%20Noida%20Banquet!5e0!3m2!1sen!2sin!4v1792228445001!5m2!1sen!2sin"
+                width="400" height="250"
+              ></iframe>
             </div>
 
             <div className="venue-cta-row">
@@ -489,7 +467,7 @@ export default function Home() {
                 muted
                 playsInline
                 preload="auto"
-                className="reception-couple-video"
+                className="reception-couple-video "
               />
             </div>
 
@@ -500,43 +478,7 @@ export default function Home() {
               Family
             </h2>
 
-            {/* Corner Floral Lantern Arrangements */}
-            {/* <div className="royal-corner-decorations" aria-hidden="true">
-              <img
-                src="/canva_assets/1680ccaf2ad000d6612a57b6b6c7eac4.png"
-                alt=""
-                className="corner-decor decor-left"
-              />
-              <img
-                src="/canva_assets/1680ccaf2ad000d6612a57b6b6c7eac4.png"
-                alt=""
-                className="corner-decor decor-right"
-              />
-            </div> */}
           </motion.div>
-
-          {/* 14. SOCIAL SHARE SECTION */}
-          {/* <motion.div
-            className="social-share-card"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: false, amount: 0.25 }}
-            variants={fadeInUp}
-          >
-            <h4 className="share-heading font-festive">Spread the Joy #SaAnj</h4>
-            <p className="share-sub font-handwriting">
-              Share Sahil &amp; Anjali&apos;s wedding card with family and friends.
-            </p>
-            <div className="share-buttons-row">
-              <button onClick={handleShareWhatsApp} className="btn-whatsapp font-cinzel">
-                Share on WhatsApp 💬
-              </button>
-              <button onClick={handleCopyLink} className="btn-copy-link font-cinzel">
-                Copy Link 🔗
-              </button>
-            </div>
-          </motion.div> */}
-
           {/* 15. FOOTER */}
           <footer className="page-footer">
             <p className="footer-hashtag font-hashtag">#SaAnj</p>
@@ -698,6 +640,7 @@ export default function Home() {
         .invocation-text {
           font-size: 1.25rem;
           color: #5c382f;
+          margin-block: 30px;
           line-height: 1.5;
           font-weight: 600;
           text-align: center;
@@ -781,7 +724,7 @@ export default function Home() {
         }
 
         .save-moment-heading {
-          font-size: 3rem;
+          font-size: 1.5rem;
           color: #b20e00;
           font-weight: 700;
           line-height: 1.15;
@@ -794,7 +737,7 @@ export default function Home() {
           color: #5c382f;
           font-weight: 600;
           font-style: italic;
-          margin-bottom: 1rem;
+          margin-top: 0.5rem;
         }
 
         .date-ornate-plaque {
@@ -943,30 +886,46 @@ export default function Home() {
           width: 100%;
         }
 
-        /* Couple Traditional Wedding Photo */
-        .couple-photo-card {
-          margin: 2.2rem auto 2rem;
+        /* Couple Traditional Wedding Cutout with Floral Garland */
+        .couple-portrait-section {
           width: 100%;
+          margin: 2rem auto 2.2rem;
           display: flex;
           justify-content: center;
           align-items: center;
         }
 
-        .wedding-photo-wrapper {
-          width: 260px;
-          border-radius: 18px;
-          overflow: hidden;
-          box-shadow: 0 10px 25px rgba(108, 33, 24, 0.2);
-          border: 2px solid #e2c07a;
-          margin: 0 auto;
+        .couple-portrait-box {
+          margin-top: 30px;
+          margin-bottom: 20px;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+          max-width: 320px;
         }
 
-        .couple-traditional-photo {
-          width: 100%;
+        .couple-cutout-img {
+          width: 260px;
+          max-width: 90%;
           height: auto;
           display: block;
-          object-fit: cover;
-          margin: 0 auto;
+          object-fit: contain;
+          background: transparent;
+          user-select: none;
+        }
+
+        .couple-garland-ribbon {
+          width: 310px;
+          max-width: 105%;
+          height: auto;
+          margin-top: -54px;
+          position: relative;
+          z-index: 10;
+          display: block;
+          pointer-events: none;
+          user-select: none;
         }
 
         /* Venue Block with Comfortable Padding */
@@ -1052,6 +1011,7 @@ export default function Home() {
         }
 
         .btn-royal-gold {
+          margin-bottom: 40px;
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -1108,6 +1068,7 @@ export default function Home() {
         .golden-frame-portrait {
           position: relative;
           width: 100%;
+          height: 350px;
           max-width: 290px;
           border-radius: 20px;
           overflow: hidden;
@@ -1120,7 +1081,7 @@ export default function Home() {
         .reception-couple-img,
         .reception-couple-video {
           width: 100%;
-          height: auto;
+          height: 350px;
           aspect-ratio: 16 / 9;
           display: block;
           object-fit: cover;
@@ -1129,7 +1090,7 @@ export default function Home() {
         }
 
         .family-title {
-          font-size: 3.4rem;
+          font-size: 2.4rem;
           color: #b20e00;
           font-weight: 700;
           line-height: 1.15;
@@ -1140,100 +1101,6 @@ export default function Home() {
           width: 100%;
         }
 
-        /* Delicate Corner Floral Lanterns */
-        .royal-corner-decorations {
-          position: relative;
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          margin-top: -1rem;
-          pointer-events: none;
-        }
-
-        .corner-decor {
-          width: 80px;
-          height: auto;
-          object-fit: contain;
-          filter: drop-shadow(0 4px 8px rgba(108, 33, 24, 0.15));
-        }
-
-        .decor-right {
-          transform: scaleX(-1);
-        }
-
-        /* Social Share */
-        .social-share-card {
-          background: rgba(255, 255, 255, 0.95);
-          border: 1.5px solid #d4af37;
-          border-radius: 16px;
-          padding: 1.8rem 1.4rem;
-          margin: 2rem auto 1.5rem;
-          width: 100%;
-          box-shadow: 0 6px 20px rgba(108, 33, 24, 0.08);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-        }
-
-        .share-heading {
-          font-size: 2rem;
-          color: #b20e00;
-          margin-bottom: 0.3rem;
-          text-align: center;
-          width: 100%;
-        }
-
-        .share-sub {
-          font-size: 1.05rem;
-          color: #5c382f;
-          margin-bottom: 1.2rem;
-          text-align: center;
-          width: 100%;
-        }
-
-        .share-buttons-row {
-          display: flex;
-          gap: 0.8rem;
-          justify-content: center;
-          align-items: center;
-          flex-wrap: wrap;
-          width: 100%;
-        }
-
-        .btn-whatsapp {
-          background: #25d366;
-          color: #ffffff;
-          padding: 0.75rem 1.4rem;
-          border-radius: 9999px;
-          border: none;
-          font-weight: 700;
-          cursor: pointer;
-          font-size: 0.82rem;
-          transition: transform 0.2s ease;
-        }
-
-        .btn-whatsapp:hover {
-          transform: translateY(-2px);
-        }
-
-        .btn-copy-link {
-          background: #fdfaf3;
-          color: #6c2118;
-          border: 1px solid #d4af37;
-          padding: 0.75rem 1.4rem;
-          border-radius: 9999px;
-          font-weight: 700;
-          cursor: pointer;
-          font-size: 0.82rem;
-          transition: transform 0.2s ease;
-        }
-
-        .btn-copy-link:hover {
-          background: #ffffff;
-          transform: translateY(-2px);
-        }
 
         /* Page Footer */
         .page-footer {
