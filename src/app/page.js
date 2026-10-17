@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import RoyalEnvelopeEntrance from '@/components/RoyalEnvelopeEntrance';
+import VideoEntrance from '@/components/VideoEntrance';
 import AudioPlayer from '@/components/AudioPlayer';
 import Countdown from '@/components/Countdown';
 import GoldenScratchCard from '@/components/GoldenScratchCard';
@@ -15,6 +15,15 @@ export default function Home() {
   const [showPetals, setShowPetals] = useState(true);
   const [toastMessage, setToastMessage] = useState('');
   const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if ('scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'manual';
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
+  }, []);
 
   const playAudioImmediately = () => {
     if (audioRef.current) {
@@ -31,6 +40,11 @@ export default function Home() {
 
   const handleModalFinished = () => {
     setIsOpeningModalOpen(false);
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      if (document.documentElement) document.documentElement.scrollTop = 0;
+      if (document.body) document.body.scrollTop = 0;
+    }
   };
 
   const toggleMusic = () => {
@@ -110,8 +124,8 @@ export default function Home() {
         🌸 {showPetals ? 'Petals: On' : 'Petals: Off'}
       </button>
 
-      {/* Royal Envelope Opening Entrance Modal */}
-      <RoyalEnvelopeEntrance
+      {/* Royal Video Entrance (/internce/inter.mp4) */}
+      <VideoEntrance
         isOpen={isOpeningModalOpen}
         onOpen={handleModalFinished}
         onPlayAudio={playAudioImmediately}
